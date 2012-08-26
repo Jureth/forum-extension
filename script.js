@@ -1,4 +1,4 @@
-if ( location.href.indexOf('sources.ru') > 0 ){
+if ( location.href.indexOf('forum.sources.ru') > 0 ){
     $(document).ready(function(){
         //удаление новостей
         $news = $('#navstrip').closest('table').next().next();
