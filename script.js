@@ -1,4 +1,11 @@
 if ( location.href.indexOf('forum.sources.ru') > 0 ){
+    var excluded_users = new Array(
+        'DrUnkard',
+        'Koss',
+        'мыш',
+        '#SI#',
+        'Booze'
+    );
     $(document).ready(function(){
         //удаление новостей
         $news = $('#navstrip').closest('table').next().next();
@@ -35,6 +42,15 @@ if ( location.href.indexOf('forum.sources.ru') > 0 ){
         $('#ipbwrapper #ipbwrapper').before("<div class='postcolor' id='rules_spoiler'><div class='spoiler closed'><div class='spoiler_header'>Правила</div><div class='body'></div></div><div>");
         $('#rules_spoiler .spoiler_header').click(function(){openCloseParent(this);});
         $('#rules_spoiler .body').append($('#ipbwrapper #ipbwrapper'));
+
+        //поиск "неугодных" сообщений
+        if ( location.href.indexOf('showtopic=') > 0 ){
+            $posts_to_hide = $('.postlinksbar').closest('.tableborder').find('table').filter(function(index){ return -1 != jQuery.inArray($(this).find('.normalname a').first().text(), excluded_users); });
+            $posts_to_hide.each(function(){ $(this).find('tr:eq(1) td:eq(1) div.postcolor').each(function(){
+                $(this).html("<div class='spoiler closed'><div class='spoiler_header'>Не интересно</div><div class='body'>" + $(this).html() + "</div></div>");
+                $(this).find('.spoiler_header').first().click(function(){openCloseParent(this);});
+            })});
+        }
     })
 }
 
