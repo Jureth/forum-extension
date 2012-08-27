@@ -9,11 +9,7 @@
 (function (window, undefined) {
 // [2] нормализуем window
     var w;
-    if (typeof unsafeWindow != undefined) {
-        w = unsafeWindow
-    } else {
-        w = window;
-    }
+    w = window;
     if (w.self != w.top) {
         return;
     }
