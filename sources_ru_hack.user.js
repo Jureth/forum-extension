@@ -128,8 +128,8 @@
                 //add links
                 $table = $('.postlinksbar').closest('.tableborder').find('table');
                 $table.each(function(){
-                    $(this).find('tr:eq(1) .postdetails').append('<a class="add_excluded_link">Добавить в игнор</a>');
-                    $(this).find('tr:eq(1) .postdetails').append('<a class="remove_excluded_link">Убрать из игнора</a>');
+                    $(this).find('tr:eq(1) .postdetails').append('<a href="#" class="add_excluded_link">Добавить в игнор</a>');
+                    $(this).find('tr:eq(1) .postdetails').append('<a href="#" class="remove_excluded_link">Убрать из игнора</a>');
                     if ( -1 != jQuery.inArray($(this).find('.normalname a').first().text(), excluded) ) {
                         $(this).find('.add_excluded_link').hide();
                     }else{
