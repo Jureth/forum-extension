@@ -2,8 +2,8 @@
 // @name forum_sources_ru_hack
 // @description Хак внешнего вида форума на исходниках
 // @author Yuri 'Jureth' Minin
-// @license MIT
-// @version 1.0
+// @license Personal use only. Not for distribution
+// @version 1.1
 // ==/UserScript==
 // [1] Оборачиваем скрипт в замыкание, для кроссбраузерности (opera, ie)
 (function (window, undefined) {
@@ -22,11 +22,16 @@
             '#SI#',
             'Booze'
         );
+        $.getScript('http://forum.sources.ru/html/global.js');
         $(document).ready(function () {
+            //удаление ссылок на правила, поиск и т.д.
+            $('#submenu').hide();
+            //удаление шапки
+            $('#logostrip').closest('table').hide();
             //удаление новостей
             $news = $('#navstrip').closest('table').next().next();
             if ($news.html().indexOf('новости') > -1 || $news.html().indexOf('голосования') > -1) {
-                $news.remove();
+                $news.hide();
             }
             //замена моего помошника на избранное
             $buddy = $('a[href*="buddy_pop()"]');
@@ -40,10 +45,6 @@
             }
             //удаление баннеров и дай5
             $('#navstrip').siblings().text('');
-            //удаление ссылок на правила, поиск и т.д.
-            $('#submenu').remove();
-            //удаление шапки
-            $('#logostrip').closest('table').remove();
 
             //отступ от верхнего края
             $('#userlinks').css('margin-top', '10px');
@@ -75,6 +76,9 @@
                     })
                 });
             }
+        if ( supports_html5_storage() ) {
+		alert('ye');
+	}
         })
     }
 })(window);
