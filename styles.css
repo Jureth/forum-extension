@@ -1,3 +1,23 @@
-#logostrip !important {
-    height: 0px;
+#logostrip {
+    display: none !important;
+}
+
+#submenu {
+	display: none !important;
+}
+
+#userlinks {
+	margin-top: 10px;
+}
+
+#ipbwrapper > noindex {
+	display: none !important;
+}
+
+body > #ipbwrapper > table:nth-of-type(1){
+	display: none;
+}
+
+td#navstrip + td, td#navstrip + td + td {
+	display: none;
 }
