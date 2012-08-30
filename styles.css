@@ -10,10 +10,18 @@
 	display: none !important;
 }
 
+#ipbwrapper #ipbwrapper {
+    display: none;
+}
+
 body > #ipbwrapper > table:nth-of-type(1){
 	display: none;
 }
 
 td#navstrip + td, td#navstrip + td + td {
 	display: none;
+}
+
+.hide_message {
+    color: silver;
 }

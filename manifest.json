@@ -12,5 +12,5 @@
     "description":"Хак внешнего вида форума на исходниках",
     "name":"forum_sources_ru_hack",
     "permissions":[ "http://*/*", "unlimitedStorage"],
-    "version":"1.1.25"
+    "version":"1.1.26"
 }
