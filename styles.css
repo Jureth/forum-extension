@@ -25,3 +25,8 @@ td#navstrip + td, td#navstrip + td + td {
 .hide_message {
     color: silver;
 }
+
+tr.ignored_theme {
+    display: none;
+    /* opacity: 0.1;*/
+}

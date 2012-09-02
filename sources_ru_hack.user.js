@@ -15,67 +15,28 @@
         return;
     }
 
-    function supports_html5_storage() {
-        try {
-            return 'localStorage' in window && window['localStorage'] !== null;
-        } catch (e) {
-            return false;
-        }
-    }
 
-    var excluded_users = new Object;
-	/**
-	 * Retreive ignore list
-	 */
-    excluded_users.get = function(){
-        users = localStorage['sources.forum.excluded'];
-        if ( typeof users == 'undefined' ) {
-            return new Array();
-        }
-        users = JSON.parse(users);
-        if ( !jQuery.isArray(users) ) {
-            users = new Array();
-        }
-        return users;
-    }
+    var excluded_users = new StorageManager('sources.forum.excluded_users');
 
-	/**
-	 * Add user to ignore list
-	 */
-    excluded_users.add = function(name){
-        users = this.get();
-        if ( jQuery.inArray(name, users) == -1 ) {
-            users.push(name);
-            localStorage['sources.forum.excluded'] = JSON.stringify(users);
-        }
-    }
-
-    /**
-	 * Delete user from ignore list
-	 */
-    excluded_users.remove = function(name){
-        users = this.get();
-        id = jQuery.inArray(name, users);
-        if ( id != -1 ) {
-            delete users[id];
-            localStorage['sources.forum.excluded'] = JSON.stringify(users);
-        }
-    }
+    var grayed_themes = new StorageManager('sources.form.grayed_themes');
 
     $.noConflict();
     jQuery(document).ready(function ($) {
         //удаление ссылок на правила, поиск и т.д.
 
         $('#submenu').first().remove();
-        //удаление новостей. Пока костылями
-        $news = $('#navstrip').closest('table').next().next();
-        if ( $news.attr('id') == 'submenu'){
-            $news = $news.next();
+        //Главная страница
+        if ( !/act=|showtopic=|showforum=/.test(w.location.href) ){
+            //удаление новостей. Пока костылями
+            $news = $('#navstrip').closest('table').next().next();
+            if ( $news.attr('id') == 'submenu'){
+                $news = $news.next();
+            }
+            if ($news.html().indexOf('новости') > -1 || $news.html().indexOf('голосования') > -1) {
+                $news.remove();
+            }
+            delete $news;
         }
-        if ($news.html().indexOf('новости') > -1 || $news.html().indexOf('голосования') > -1) {
-            $news.remove();
-        }
-        delete $news;
 
         //замена моего помошника на избранное
         $('a[href*="buddy_pop()"]').replaceWith('<a href="http://forum.sources.ru/index.php?act=fav&show=1" id="new_favorites_button">Избранное</a>')
@@ -162,6 +123,44 @@
                 }
 
             });
+        }
+        else if ( /CODE_MODE=(my)?getnew/.test(w.location.href) ){
+            var excluded = grayed_themes.get();
+            console.log(excluded);
+            var bgcolor = $(this).find('.tablebasic tr:eq(2) td:first').css('background-color');
+            $('.tablebasic tr:not(:first)').each(function(){
+                var $row = $(this);
+                var themeId = /showtopic=(\d+)/.exec($row.html())[1];
+
+                if ( excluded.indexOf(themeId) > -1 ){
+                    $row.addClass('ignored_theme');
+                }
+
+                $row.find('td:first span').html($('<a>', {
+                    class: 'ignore_theme_button',
+                    html: '<b>#</b>',
+                    css: {
+                        cursor: 'pointer',
+                    },
+                    click: function(){
+                        index = excluded.indexOf(themeId);
+                        if ( index > -1 ){
+                            console.log('remove ' + themeId);
+                            grayed_themes.remove(themeId);
+                            excluded.remove(index);
+                            $row.removeClass('ignored_theme');
+                        }else{
+                            console.log('add ' + themeId);
+                            grayed_themes.add(themeId);
+                            excluded.push(themeId);
+                            $row.addClass('ignored_theme');
+                        }
+                        console.log(excluded);
+                    }
+                }));
+
+            })
+            $('.tablebasic').css('background-color', bgcolor);
         }
     })
 })(window);
