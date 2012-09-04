@@ -24,7 +24,6 @@
     jQuery(document).ready(function ($) {
         //удаление ссылок на правила, поиск и т.д.
 
-        $('#submenu').first().remove();
         //Главная страница
         if ( !/act=|showtopic=|showforum=/.test(w.location.href) ){
             //удаление новостей. Пока костылями
@@ -42,8 +41,9 @@
         $('a[href*="buddy_pop()"]').replaceWith('<a href="http://forum.sources.ru/index.php?act=fav&show=1" id="new_favorites_button">Избранное</a>')
         if ($('table#submenu:first').find('img[src*="atb_favs_new.gif"]').length > 0) {
             //реакция на наличие обновлений избранных тем
-            $('#new_favorites_button').css('color', 'red');
+            $('#new_favorites_button').addClass('have_new');
         }
+        $('#submenu').first().remove();
 
         //удаление статистики форума
         $('div:contains("Статистика форума")').closest('.tableborder').remove();

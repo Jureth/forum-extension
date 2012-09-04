@@ -30,3 +30,7 @@ tr.ignored_theme {
     display: none;
     /* opacity: 0.1;*/
 }
+
+#new_favorites_button.have_new {
+    color: red;
+}
