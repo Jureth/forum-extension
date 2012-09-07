@@ -1,6 +1,4 @@
-/**
- * Retreive ignore list
- */
+
 function StorageManager(storageName){
     this.localStorageName = storageName;
 }
