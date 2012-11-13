@@ -15,7 +15,6 @@
         return;
     }
 
-
     var excluded_users = new StorageManager('sources.forum.excluded_users');
 
     var grayed_themes = new StorageManager('sources.form.grayed_themes');

@@ -35,6 +35,6 @@ tr.ignored_theme {
     color: red;
 }
 
-body > #ipbwrapper > table#userlinks+table+br+div{
+body > #ipbwrapper > table#userlinks+table+br+div>a>img{
 	display: none;
 }
