@@ -42,6 +42,8 @@
             //реакция на наличие обновлений избранных тем
             $('#new_favorites_button').addClass('have_new');
         }
+
+	$('#new_favorites_button').after(' &middot; <a href="http://forum.sources.ru/index.php?c=9" id="club_button">Клуб</a>');
         $('#submenu').first().remove();
 
         //удаление статистики форума
