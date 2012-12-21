@@ -18,6 +18,12 @@
     var excluded_users = new StorageManager('sources.forum.excluded_users');
 
     var grayed_themes = new StorageManager('sources.form.grayed_themes');
+    var global_options = load_options_from_storage();
+    chrome.extension.sendRequest({action: "options"}, function(response) {
+        global_options = response;
+        //syncing options. not a good idea, but it's there are no other ways
+        save_options_to_storage(global_options);
+    });
 
     $.noConflict();
     jQuery(document).ready(function ($) {
@@ -127,7 +133,7 @@
         }
         else if ( /CODE_MODE=(my)?getnew/.test(w.location.href) ){
             var excluded = grayed_themes.get();
-            console.log(excluded);
+            //console.log(excluded);
             var bgcolor = $(this).find('.tablebasic tr:eq(2) td:first').css('background-color');
             $('.tablebasic tr:not(:first)').each(function(){
                 var $row = $(this);
@@ -146,12 +152,12 @@
                     click: function(){
                         index = excluded.indexOf(themeId);
                         if ( index > -1 ){
-                            console.log('remove ' + themeId);
+//                            console.log('remove ' + themeId);
                             grayed_themes.remove(themeId);
                             excluded.remove(index);
                             $row.removeClass('ignored_theme');
                         }else{
-                            console.log('add ' + themeId);
+//                            console.log('add ' + themeId);
                             grayed_themes.add(themeId);
                             excluded.push(themeId);
                             $row.addClass('ignored_theme');
@@ -161,8 +167,24 @@
                 }));
 
             })
-            $('.tablebasic').css('background-color', bgcolor);
         }
-    })
-})(window);
+        $('.tablebasic').css('background-color', bgcolor);
+        if ( global_options['show_create_post_btn']) {
+            add_topic_buttons();
+        }
+    })//ready
 
+    function add_topic_buttons(){
+        //add new poll && new topic buttons
+        jQuery('.row2 b a[href*="showforum"]').each(function()
+        {
+            var href;
+            if ( (href = /showforum=(\d+)/.exec(jQuery(this).attr('href'))) != null ) {
+                var links =
+                      '<a class="cs-button new-poll-button" href="http://forum.sources.ru/index.php?act=Post&CODE=10&f=' + href[1] + '">Новое голосование</a>'
+                    + '<a class="cs-button new-topic-button" href="http://forum.sources.ru/index.php?act=Post&CODE=00&f=' + href[1] + '">Новая тема</a>';
+                 jQuery(links).prependTo(jQuery(this).closest('td'));
+            }
+        });
+    }
+})(window);

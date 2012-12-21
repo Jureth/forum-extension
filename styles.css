@@ -38,3 +38,26 @@ tr.ignored_theme {
 body > #ipbwrapper > table#userlinks+table+br+div>a>img{
 	display: none;
 }
+
+.cs-button {
+    float: right;
+    color: white !important;
+    font-size: 90%;
+    margin: 2px 2px 2px 0;
+    padding: 3px 4px;
+    text-decoration: none !important;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.cs-button:hover {
+    background-color: #FE7A15
+}
+
+.new-topic-button {
+    background-color: #69C;
+}
+
+.new-poll-button {
+    background-color: #9C6;
+}

@@ -1,28 +1,4 @@
 /**
- * Кроссдоменные запросы для Хрома.
- * XMLHttpRequest на фоновой странице избавлен от CORP (Cross Origin Request Policy),
- * т.е. может посылать запросы на другие домены.
- * Ниже реализован простой метод GET
- */
-function get(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function (data) {
-        if (xhr.readyState == 4) {
-            if (xhr.status == 200) {
-                callback(data.srcElement.responseText);
-            } else {
-                callback(null);
-            }
-        }
-    }
-    // Note that any URL fetched here must be matched by a permission in
-    // the manifest.json file!
-    xhr.open('GET', url, true);
-    xhr.send();
-}
-;
-
-/**
  * Обработчик события chrome.extension api.
  * Нужен лдя непосредственного проксирования
  * @param request Object Данные нашего api-запроса.
@@ -32,14 +8,18 @@ function get(url, callback) {
 function onRequest(request, sender, callback) {
     // В данном примере поддерживается только действие xget.
     // В целом же можно построить довольно неплохую RPC-cистему
-    if (request.action == 'xget') {
-        get(request.url, callback);
+    switch(request.action){
+        case 'options':
+            callback(load_options_from_storage());
+            break;
     }
 }
 ;
 
 // Регистрируем обработчик события.
 chrome.extension.onRequest.addListener(onRequest);
+
+//chrome.extension.options = localst
 
 // Из скрипта обращение к прокси будет выглядеть так:
 // chrome.extension.sendRequest({'action' : 'xget', 'url':url}, callback);

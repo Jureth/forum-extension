@@ -1,5 +1,8 @@
 {
-    "background":"background.js",
+    "background": {
+        "scripts": ["functions.js", "background.js"],
+        "persistent": false
+    },
     "manifest_version": 2,
     "content_scripts":[
         {
@@ -9,8 +12,9 @@
             "css": ["styles.css"]
         }
     ],
+    "options_page": "options.html",
     "description":"Хак внешнего вида форума на исходниках",
     "name":"forum_sources_ru_hack",
     "permissions":[ "http://*/*", "unlimitedStorage"],
-    "version":"1.2.1"
+    "version":"1.3.4"
 }
