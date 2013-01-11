@@ -17,9 +17,6 @@ function onRequest(request, sender, callback) {
 ;
 
 // Регистрируем обработчик события.
-chrome.extension.onRequest.addListener(onRequest);
+chrome.extension.onMessage.addListener(onRequest);
 
 //chrome.extension.options = localst
-
-// Из скрипта обращение к прокси будет выглядеть так:
-// chrome.extension.sendRequest({'action' : 'xget', 'url':url}, callback);

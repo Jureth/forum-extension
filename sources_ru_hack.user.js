@@ -19,7 +19,7 @@
 
     var grayed_themes = new StorageManager('sources.form.grayed_themes');
     var global_options = load_options_from_storage();
-    chrome.extension.sendRequest({action: "options"}, function(response) {
+    chrome.extension.sendMessage({action: "options"}, function(response) {
         global_options = response;
         //syncing options. not a good idea, but it's there are no other ways
         save_options_to_storage(global_options);
