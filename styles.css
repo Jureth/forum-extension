@@ -26,9 +26,9 @@ td#navstrip + td, td#navstrip + td + td {
     color: silver;
 }
 
-tr.ignored_theme {
+tr.ignored_topic {
     display: none;
-    /* opacity: 0.1;*/
+    /* opacity: 0.1; */
 }
 
 #new_favorites_button.have_new {
@@ -60,4 +60,19 @@ body > #ipbwrapper > table#userlinks+table+br+div>a>img{
 
 .new-poll-button {
     background-color: #9C6;
+}
+
+.show-topic-button,
+.hide-topic-button {
+    float: right;
+    margin: 2px 2px 2px 0;
+    cursor: pointer;
+    white-space: nowrap;
+    padding: 3px 4px;
+    color: #9FBCE3;
+}
+
+a.show-topic-button:hover,
+a.hide-topic-button:hover {
+    text-decoration: none;
 }
