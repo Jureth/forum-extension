@@ -230,10 +230,8 @@
             click: function(){
                 topicId = jQuery(this).attr('topicId');
                 grayed_themes.remove(topicId);
-                delete excluded[excluded.indexOf(topicId)];
                 jQuery(this).closest('tr').removeClass('ignored_topic');
-                $btn = $hide_button_template.getButton(topicId);
-                jQuery(this).replaceWith($btn);
+                jQuery(this).replaceWith($hide_button_template.getButton(topicId));
             },
         });
         $show_button_template.getButton = getButton;
@@ -244,26 +242,22 @@
             click: function(){
                 topicId = jQuery(this).attr('topicId');
                 grayed_themes.add(topicId);
-                excluded.push(topicId);
                 jQuery(this).closest('tr').addClass('ignored_topic');
-                $btn = $show_button_template.getButton(topicId);
-                jQuery(this).replaceWith($btn);
+                jQuery(this).replaceWith($show_button_template.getButton(topicId));
             }
         });
         $hide_button_template.getButton = getButton;
 
-
-        jQuery('a[href*=showtopic]').parents('tr').each(function(){
+        //Добавляем кнопки
+        jQuery('a[href*=showtopic]').not('a[href*=getlastpost]').parents('tr').each(function(){
             var $row = jQuery(this);
             var topicId = /showtopic=(\d+)/.exec($row.html())[1];
 
             if ( excluded.indexOf(topicId) > -1 ){
                 $row.addClass('ignored_topic');
-                var $btn = $show_button_template.getButton(topicId);
-                $row.find('td:eq(2)').prepend($btn);
+                $row.find('td:eq(2)').prepend($show_button_template.getButton(topicId));
             }else{
-                $btn = $hide_button_template.getButton(topicId);
-                $row.find('td:eq(2)').prepend($btn);
+                $row.find('td:eq(2)').prepend($hide_button_template.getButton(topicId));
             }
         })
     }
