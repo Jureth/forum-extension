@@ -216,7 +216,15 @@
 
     function hideTopics(){
         var excluded = grayed_themes.get();
-        var $add_button = jQuery('<a>', {
+
+        //Создаём собственно кнопки
+        getButton = function(topicId){
+            $r = this.clone();
+            $r.attr('topicId', topicId);
+            return $r;
+        }
+
+        var $show_button_template = jQuery('<a>', {
             class: 'show-topic-button',
             html: 'Показать',
             click: function(){
@@ -224,12 +232,13 @@
                 grayed_themes.remove(topicId);
                 delete excluded[excluded.indexOf(topicId)];
                 jQuery(this).closest('tr').removeClass('ignored_topic');
-                $btn = $del_button.clone(true);
-                $btn.attr('topicId', topicId);
+                $btn = $hide_button_template.getButton(topicId);
                 jQuery(this).replaceWith($btn);
-            }
+            },
         });
-        var $del_button = jQuery('<a>', {
+        $show_button_template.getButton = getButton;
+
+        var $hide_button_template = jQuery('<a>', {
             class: 'hide-topic-button',
             html: 'Скрыть',
             click: function(){
@@ -237,11 +246,12 @@
                 grayed_themes.add(topicId);
                 excluded.push(topicId);
                 jQuery(this).closest('tr').addClass('ignored_topic');
-                $btn = $add_button.clone(true);
-                $btn.attr('topicId', topicId);
+                $btn = $show_button_template.getButton(topicId);
                 jQuery(this).replaceWith($btn);
             }
         });
+        $hide_button_template.getButton = getButton;
+
 
         jQuery('a[href*=showtopic]').parents('tr').each(function(){
             var $row = jQuery(this);
@@ -249,12 +259,10 @@
 
             if ( excluded.indexOf(topicId) > -1 ){
                 $row.addClass('ignored_topic');
-                var $btn = $add_button.clone(true);
-                $btn.attr('topicId', topicId);
+                var $btn = $show_button_template.getButton(topicId);
                 $row.find('td:eq(2)').prepend($btn);
             }else{
-                $btn = $del_button.clone(true);
-                $btn.attr('topicId', topicId);
+                $btn = $hide_button_template.getButton(topicId);
                 $row.find('td:eq(2)').prepend($btn);
             }
         })
