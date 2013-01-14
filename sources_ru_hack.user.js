@@ -219,7 +219,7 @@
 
         //Создаём собственно кнопки
         getButton = function(topicId){
-            $r = this.clone();
+            $r = this.clone(true);
             $r.attr('topicId', topicId);
             return $r;
         }
