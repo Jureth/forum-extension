@@ -18,6 +18,7 @@
     var excluded_users = new StorageManager('sources.forum.excluded_users');
 
     var grayed_themes = new StorageManager('sources.form.grayed_themes');
+
     var global_options = load_options_from_storage();
     chrome.extension.sendMessage({action: "options"}, function(response) {
         global_options = response;
@@ -28,33 +29,8 @@
     $.noConflict();
 
     jQuery(document).ready(function ($) {
-        //удаление ссылок на правила, поиск и т.д.
-
-        //Главная страница
-        if ( !/act=|showtopic=|showforum=/.test(w.location.href) ){
-            //удаление новостей. Пока костылями
-            $news = $('#navstrip').closest('table').next().next();
-            if ( $news.attr('id') == 'submenu'){
-                $news = $news.next();
-            }
-            if ($news.html().indexOf('новости') > -1 || $news.html().indexOf('голосования') > -1) {
-                $news.remove();
-            }
-            delete $news;
-        }
-
         favButton();
         clubButton();
-
-        $('#submenu').first().remove();
-
-        //удаление статистики форума
-        $('div:contains("Статистика форума")').closest('.tableborder').remove();
-
-        //удаление powered by invision и прочей информации
-        //не реализуется через css. поведение :NOT отличается
-        $('#ipbwrapper > div:not(".tableborder,.tablefill,#qr_open,#ipbwrapper")').remove();
-
         hideRules();
 
         //поиск "неугодных" сообщений
@@ -75,7 +51,7 @@
 
     //Скрытие правил
     function hideRules(){
-        var $rules = jQuery('#ipbwrapper #ipbwrapper');
+        var $rules = jQuery('.rules-wrapper');
         jQuery('<span id="rules_spoiler">Правила</span>').insertBefore($rules)
             .css({'cursor': 'pointer', 'color': 'red', 'font-style': 'bold'})
             .toggle(function(){ $rules.show('fast')}, function(){$rules.hide('fast')});
@@ -84,13 +60,13 @@
 
     //Добавление кнопки клуба
     function clubButton(){
-        jQuery('#new_favorites_button').after(' &middot; <a href="http://forum.sources.ru/index.php?c=9" id="club_button">Клуб</a>');
+        jQuery('#new_favorites_button').parents('.b-action-button-wrapper').after('<span class="b-action-button-wrapper"><a class="e-action-button e-user-club-button" href="index.php?c=9" id="club_button">Клуб</a></span>');
     }
 
     //замена моего помошника на избранное
     function favButton(){
-        jQuery('a[href*="buddy_pop()"]').replaceWith('<a href="http://forum.sources.ru/index.php?act=fav&show=1" id="new_favorites_button">Избранное</a>')
-        if (jQuery('table#submenu:first').find('img[src*="atb_favs_new.gif"]').length > 0) {
+        jQuery('a.e-user-buddy-button').replaceWith('<a class="e-action-button e-user-favorites-button" id="new_favorites_button" href="index.php?act=fav&show=1">Избранное</a>');
+        if (jQuery('.e-menu-item-favorites').find('img[src*="atb_favs_new.gif"]').length > 0) {
             //реакция на наличие обновлений избранных тем
             jQuery('#new_favorites_button').addClass('have_new');
         }
@@ -99,14 +75,14 @@
     //Добавление кнопок создания темы/опроса
     function add_topic_buttons(){
         //add new poll && new topic buttons
-        jQuery('.row2 b a[href*="showforum"]').each(function()
+        jQuery('.forum-row:not(.forum-redirect)').each(function()
         {
             var href;
-            if ( (href = /showforum=(\d+)/.exec(jQuery(this).attr('href'))) != null ) {
+            if ( (href = /forum-(\d+)/.exec(jQuery(this).attr('class'))) != null ) {
                 var links =
-                      '<a class="cs-button new-poll-button" href="http://forum.sources.ru/index.php?act=Post&CODE=10&f=' + href[1] + '">Новое голосование</a>'
-                    + '<a class="cs-button new-topic-button" href="http://forum.sources.ru/index.php?act=Post&CODE=00&f=' + href[1] + '">Новая тема</a>';
-                 jQuery(links).prependTo(jQuery(this).closest('td'));
+                      '<a class="cs-button cs-new-poll-button" href="index.php?act=Post&CODE=10&f=' + href[1] + '">Новое голосование</a>'
+                    + '<a class="cs-button cs-new-topic-button" href="index.php?act=Post&CODE=00&f=' + href[1] + '">Новая тема</a>';
+                 jQuery(links).prependTo(jQuery(this).find('td.forum-title'));
             }
         });
     }

@@ -1,25 +1,61 @@
+/* no logo */
 #logostrip {
     display: none !important;
 }
 
-#userlinks {
-	margin-top: 10px;
+/* no logo */
+body > #ipbwrapper > table:nth-of-type(1){
+    display: none;
 }
 
+/* no neighbor links. useles if previous works */
+.b-neighbor-links-wrapper {
+    display: none;
+}
+
+/* no empty lines */
+#ibwrapper > br {
+  display: none;
+}
+
+/* no news */
+#QuickLinks {
+    display: none;
+}
+
+/* no stats */
+.board-stats {
+    display: none;
+}
+
+/* no top menu */
+#top-menu {
+    display: none;
+}
+/* no "top-smth" links */
+.stats-links {
+    display: none;
+}
+
+/* make rules hidden by default */
+.rules-wrapper {
+    display: none;
+}
+
+/* no copyrights */
 #ipbwrapper > noindex {
 	display: none !important;
 }
 
-#ipbwrapper #ipbwrapper {
+/* no banners and donate */
+td.b-donate-wrapper, td.b-top-nav-banner-wrapper,
+td#navstrip + td, td#navstrip + td + td {
     display: none;
 }
 
-body > #ipbwrapper > table:nth-of-type(1){
-	display: none;
-}
-
-td#navstrip + td, td#navstrip + td + td {
-	display: none;
+/* ??? */
+body > #ipbwrapper > table#userlinks+table+br+div>a>img{
+    display: none;
 }
 
 .hide_message {
@@ -35,8 +71,9 @@ tr.ignored_topic {
     color: red;
 }
 
-body > #ipbwrapper > table#userlinks+table+br+div>a>img{
-	display: none;
+/* оторвём уже верхнее меню от края страницы */
+#userlinks {
+    margin-top: 10px;
 }
 
 .cs-button {
@@ -54,11 +91,11 @@ body > #ipbwrapper > table#userlinks+table+br+div>a>img{
     background-color: #FE7A15
 }
 
-.new-topic-button {
+.cs-new-topic-button {
     background-color: #69C;
 }
 
-.new-poll-button {
+.cs-new-poll-button {
     background-color: #9C6;
 }
 
@@ -75,4 +112,8 @@ body > #ipbwrapper > table#userlinks+table+br+div>a>img{
 a.show-topic-button:hover,
 a.hide-topic-button:hover {
     text-decoration: none;
+}
+/* нормализуем размер слова "закрыто" */
+#bottom-close-reason-wrapper span{
+    font-size: 1em !important;
 }

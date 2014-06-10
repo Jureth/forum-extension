@@ -7,7 +7,7 @@
     "content_scripts":[
         {
             "js":[ "jquery-1.8.0.min.js", "functions.js", "sources_ru_hack.user.js" ],
-            "matches":[ "http://forum.sources.ru/*", "http://devel.sources.ru/*" ],
+            "matches":[ "http://devel.sources.ru/*" ],
             "run_at":"document_start",
             "css": ["styles.css"]
         }
@@ -16,5 +16,5 @@
     "description":"Хак внешнего вида форума на исходниках",
     "name":"forum_sources_ru_hack",
     "permissions":[ "http://*/*", "unlimitedStorage"],
-    "version":"1.3.4"
+    "version":"1.3.4.6"
 }
